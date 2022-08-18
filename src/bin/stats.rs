@@ -52,15 +52,15 @@ pub async fn status(ctx: Context, msg:Message){
 
 pub async fn help(ctx: Context, msg:Message, text: &str){
     match text {
-        "HELLO" | "HI" | "HEYA" | "HENLO" | "HELLOW" | "HENLOW" | "HELO" | "HEWWO" => {
+        "hello" | "hi" | "heya" | "henlo" | "hellow" | "henlow" | "helo" | "hewwo" => {
             help_hi(ctx, msg).await
         },
 
-        "STATUS" | "STAT" | "STATS"  => {
+        "status" | "stat" | "stats"  => {
             help_stats(ctx, msg).await
         },
 
-        "PING" => {
+        "ping" => {
             help_ping(ctx, msg).await
         },
 

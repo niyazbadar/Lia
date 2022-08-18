@@ -11,9 +11,9 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
-        let prefix = "LIA";
+        let prefix = "lia";
 
-        let msg_content = msg.content.to_uppercase();
+        let msg_content = msg.content.to_lowercase();
 
         let dm = msg.is_private() && !msg.is_own(&ctx.cache);
 
@@ -22,15 +22,15 @@ impl EventHandler for Handler {
             let msg_content = match !dm || msg_content.starts_with(prefix) {
                 true => {
                     let msg_content
-                        = String::from(msg_content.strip_prefix(prefix)
-                        .unwrap());
+                        = msg_content.strip_prefix(prefix)
+                        .unwrap();
                     msg_content
                 },
-                false => msg_content
+                false => msg_content.as_str()
             };
 
-            match msg_content.split_whitespace().next().unwrap_or("NONE") {
-                "HELLO" | "HI" | "HEYA" | "HENLO" | "HELLOW" | "HENLOW" | "HELO" | "HEWWO" => {
+            match msg_content.split_whitespace().next().unwrap_or("none") {
+                "hello" | "hi" | "heya" | "henlo" | "hellow" | "henlow" | "helo" | "hewwo" => {
                     let name 
                         = msg.author_nick(&ctx.http)
                         .await
@@ -39,23 +39,21 @@ impl EventHandler for Handler {
                     bin::message::reply(ctx, msg, format!("henlo {} ^~^", name)).await; 
                 }, 
                 
-                "PING" => {
+                "ping" => {
                     bin::stats::ping(ctx, msg).await;
                 },
 
-                "STATUS" | "STAT" | "STATS" => {
+                "status" | "stat" | "stats" => {
                     bin::stats::status(ctx, msg).await;
                 },
 
-                "HELP" | "HALP" => {
-                    let msg_content = match msg_content.split_whitespace().next().unwrap() {
-                        prefix => msg_content.strip_prefix(prefix).unwrap().split_whitespace().next().unwrap_or_default(),
-                    };
+                "help" | "halp"=> {
+                    let msg_content = msg_content.split_whitespace().nth(1).unwrap_or("none");
                     
-                   bin::stats::help(ctx, msg, msg_content).await;
+                    bin::stats::help(ctx, msg, msg_content).await;
                 },
 
-                "NONE" | "?" => {
+                "none" | "?" => {
                     bin::message::reply(ctx, msg, format!("Yeah?")).await;
                 },
                 
