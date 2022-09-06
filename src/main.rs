@@ -36,7 +36,7 @@ impl EventHandler for Handler {
                         .await
                         .unwrap_or(msg.author.name.clone());
 
-                    bin::message::reply(ctx, msg, format!("henlo {} ^~^", name)).await; 
+                    bin::message::reply(ctx, msg, format!("henlo {} ^~^", name)).await;
                 }, 
                 
                 "ping" => {
@@ -45,6 +45,10 @@ impl EventHandler for Handler {
 
                 "status" | "stat" | "stats" => {
                     bin::stats::status(ctx, msg).await;
+                },
+
+                "profile" => {
+                    bin::economy::profile(ctx, msg).await;
                 },
 
                 "help" | "halp"=> {
