@@ -51,6 +51,10 @@ impl EventHandler for Handler {
                     bin::economy::profile(ctx, msg).await;
                 },
 
+                "rep" => {
+                    bin::economy::rep(ctx, msg).await;
+                }
+
                 "help" | "halp"=> {
                     let msg_content = msg_content.split_whitespace().nth(1).unwrap_or("none");
                     

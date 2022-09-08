@@ -68,6 +68,10 @@ pub async fn help(ctx: Context, msg:Message, text: &str){
             help_profile(ctx, msg).await
         },
 
+        "rep" => {
+            help_rep(ctx, msg).await
+        },
+
         _ => help_commands(ctx, msg).await
     }
 }
@@ -84,6 +88,7 @@ pub async fn help_commands(ctx: Context, msg:Message){
     let stats = MessageBuilder::new().push_named_link("`stats`", msg.link() + " 'get bot dev stats'").build();
     let ping = MessageBuilder::new().push_named_link("`ping`", msg.link() + " 'get response latency'").build();
     let profile = MessageBuilder::new().push_named_link("`profile`", msg.link() + " 'economy profile'").build();
+    let rep = MessageBuilder::new().push_named_link("`rep`", msg.link() + " 'give someone a reputation point'").build();
 
     let description = format!("
 :pushpin: **prefix:** {lia}
@@ -92,7 +97,7 @@ pub async fn help_commands(ctx: Context, msg:Message){
 ➜ {hi}
 
 :coin: **Economy Commands**
-➜ {profile}
+➜ {profile} {rep}
     
 :gear: **Developer Commands** 
 ➜ {stats} {ping}
@@ -173,6 +178,24 @@ pub async fn help_profile(ctx: Context, msg:Message){
     let mut footer = CreateEmbedFooter::default();
 
     footer.text("lia profile");
+
+    embed.set_footer(footer);
+
+    embed.colour(Colour::from_rgb(255, 255, 255));
+
+    message::embeded(ctx, msg, embed).await;
+}
+
+pub async fn help_rep(ctx: Context, msg:Message){
+    let mut embed = CreateEmbed::default();
+
+    embed.title("Economy Command: 'rep'");
+
+    embed.description("Give someone a reputation point. You can only give once a day. Reputation point allowance resets daily at 00:00 UTC");
+
+    let mut footer = CreateEmbedFooter::default();
+
+    footer.text("lia rep @usertag");
 
     embed.set_footer(footer);
 
