@@ -32,10 +32,12 @@ pub async fn profile(ctx: Context, msg:Message) {
     save::save(path.clone(), name.clone(), &data).await;
 
     let description = format!("
-:coin: {money} coins
-
-:rosette: {rep} reputaion points
-    ");
+🪙 COINS ```{money}```
+🏵️ REPUTATION POINTS```{rep}```
+📁 INVENTORY```
+FISH x77
+```
+");
 
     embed.description(description);
 
